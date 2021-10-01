@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<div class="chatbot-search">
+			<el-button @click="$router.push('/')" class="btn-add" type="primary">Thêm mới</el-button>
 			<el-input
 				size="small"
 				suffix-icon="el-icon-search"
@@ -26,6 +27,7 @@
 		data() {
 			return {
 				searchString: '',
+				updateId: 0,
 			};
 		},
 		name: 'ChatBotAside',
@@ -42,6 +44,11 @@
 <style scoped>
 	.chatbot-search {
 		padding: 10px;
+	}
+
+	.btn-add {
+		width: 100%;
+		margin-bottom: 10px;
 	}
 
 	.chatbot-title {
