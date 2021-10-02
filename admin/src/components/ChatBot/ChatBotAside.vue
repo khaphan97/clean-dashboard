@@ -1,66 +1,68 @@
 <template>
-	<div>
-		<div class="chatbot-search">
-			<el-button @click="$router.push('/')" class="btn-add" type="primary">Thêm mới</el-button>
-			<el-input
-				size="small"
-				suffix-icon="el-icon-search"
-				placeholder="Search chat node..."
-				v-model="searchString"
-			/>
-		</div>
-		<el-scrollbar>
-			<router-link
-				:to="`/chat-bot/${index}`"
-				:key="index"
-				v-for="(item, index) in 100"
-				class="chatbot-title"
-				active-class="active"
-				>Chat Bot Title {{ index }}</router-link
-			>
-		</el-scrollbar>
-	</div>
+  <div>
+    <div class="chatbot-search">
+      <el-button @click="$router.push('/chat-bot/add')" class="btn-add" type="primary"
+        >Thêm mới</el-button
+      >
+      <el-input
+        size="small"
+        suffix-icon="el-icon-search"
+        placeholder="Search chat node..."
+        v-model="searchString"
+      />
+    </div>
+    <el-scrollbar>
+      <router-link
+        :to="`/chat-bot/edit/${index}`"
+        :key="index"
+        v-for="(item, index) in 100"
+        class="chatbot-title"
+        active-class="active"
+        >Chat Bot Title {{ index }}</router-link
+      >
+    </el-scrollbar>
+  </div>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				searchString: '',
-				updateId: 0,
-			};
-		},
-		name: 'ChatBotAside',
-		components: {},
-	};
+export default {
+  data() {
+    return {
+      searchString: '',
+      updateId: 0,
+    };
+  },
+  name: 'ChatBotAside',
+  components: {},
+};
 </script>
 
 <style>
-	.el-scrollbar__wrap {
-		max-height: calc(95vh - 60px);
-	}
+.el-scrollbar__wrap {
+  max-height: calc(95vh - 60px);
+}
 </style>
 
 <style scoped>
-	.chatbot-search {
-		padding: 10px;
-	}
+.chatbot-search {
+  padding: 10px;
+}
 
-	.btn-add {
-		width: 100%;
-		margin-bottom: 10px;
-	}
+.btn-add {
+  width: 100%;
+  margin-bottom: 10px;
+}
 
-	.chatbot-title {
-		display: block;
-		padding: 10px;
-		text-decoration: none;
-		color: #096dd9;
-		font-size: 14px;
-	}
+.chatbot-title {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #096dd9;
+  font-size: 14px;
+}
 
-	.chatbot-title.active,
-	.chatbot-title:hover {
-		color: #b37feb;
-	}
+.chatbot-title.active,
+.chatbot-title:hover {
+  color: #b37feb;
+}
 </style>
