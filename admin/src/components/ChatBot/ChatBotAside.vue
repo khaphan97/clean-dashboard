@@ -1,9 +1,7 @@
 <template>
   <div>
     <div class="chatbot-search">
-      <el-button @click="$router.push('/chat-bot/add')" class="btn-add" type="primary"
-        >Thêm mới</el-button
-      >
+      <el-button @click="handleNavigate" class="btn-add" type="primary">Thêm mới</el-button>
       <el-input
         size="small"
         suffix-icon="el-icon-search"
@@ -11,14 +9,14 @@
         v-model="searchString"
       />
     </div>
-    <el-scrollbar>
+    <el-scrollbar v-if="botData">
       <router-link
-        :to="`/chat-bot/edit/${index}`"
+        :to="`/chat-bot/edit/${node.name}`"
         :key="index"
-        v-for="(item, index) in 100"
+        v-for="(node, index) in botData.content"
         class="chatbot-title"
         active-class="active"
-        >Chat Bot Title {{ index }}</router-link
+        >{{ node.name }}</router-link
       >
     </el-scrollbar>
   </div>
@@ -26,6 +24,7 @@
 
 <script>
 export default {
+  props: ['botData'],
   data() {
     return {
       searchString: '',
@@ -34,12 +33,18 @@ export default {
   },
   name: 'ChatBotAside',
   components: {},
+  methods: {
+    handleNavigate() {
+      const path = '/chat-bot/add';
+      if (this.$route.path !== path) this.$router.push(path);
+    },
+  },
 };
 </script>
 
 <style>
 .el-scrollbar__wrap {
-  max-height: calc(95vh - 60px);
+  max-height: calc(85vh - 60px);
 }
 </style>
 

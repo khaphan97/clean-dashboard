@@ -71,11 +71,13 @@
 
 <script>
 import { eventButton } from '@/constants/formData';
+import { parseButtons } from '@/utils/button';
 export default {
+  props: ['buttonNode'],
   name: 'button-node',
   data() {
     return {
-      buttons: [],
+      buttons: parseButtons(this.buttonNode) || [],
       eventButton,
     };
   },
@@ -104,6 +106,13 @@ export default {
     handleButtonData(index) {
       const button = this.buttons[index];
       return button.event === 'goto' ? button.data : button.data.next;
+    },
+  },
+  watch: {
+    buttonNode: {
+      handler(val) {
+        this.buttons = parseButtons(val);
+      },
     },
   },
 };

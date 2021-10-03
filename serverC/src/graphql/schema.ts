@@ -57,7 +57,7 @@ const typeDef = gql`
   }
 
   type Query {
-    getContentById(id: ID): Content
+    botData(id: ID): Content
     # getHistory(userId: String): User
   }
 
