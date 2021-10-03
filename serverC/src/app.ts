@@ -1,26 +1,24 @@
-import { ApolloServer } from 'apollo-server';
+import cors from 'cors';
 import dotenv from 'dotenv';
-import resolvers from './graphql/resolvers';
-import typeDefs from './graphql/schema';
+import express from 'express';
+import http from 'http';
+import { startApolloServer } from './graphql/apollo-server';
+import nodeRoutes from './routes/nodeRoutes';
 import connectDB from './server';
-import content from './models/content';
 
 dotenv.config();
-
 const port = process.env.PORT || 3000;
 const url = process.env.DB_URL;
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: () => ({
-    content,
-  }),
-});
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+app.use('/api/v1/node', nodeRoutes);
+
+const httpServer = http.createServer(app);
 
 connectDB(url).then(res => {
-  console.log('Database Connected');
-  server.listen(port).then(({ url }) => {
-    console.log(`🚀  Server ready at ${url}`);
-  });
+  console.log('Connect DB Successfully');
+  startApolloServer(httpServer, app, port);
 });

@@ -54,12 +54,10 @@
 
     <!-- <chat-carousel v-else-if="node.data.ui === 'carousel'" /> -->
 
-    <form-login v-else-if="node.data.name === 'form_login'" />
-
-    <user-info v-else />
+    <UserInfo v-else />
 
     <transition name="fade">
-      <chat-slider v-if="productList" :productList="productList" @handleStop="handleStopVideo" />
+      <ChatSlider v-if="productList" :productList="productList" @handleStop="handleStopVideo" />
     </transition>
   </div>
 </template>
@@ -67,12 +65,11 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import UserInfo from './UserInfo.vue';
-import FormLogin from './FormLogin.vue';
 import VideoPlayer from './VideoPlayer.vue';
 import ChatSlider from './ChatSlider.vue';
 
 export default {
-  components: { VideoPlayer, UserInfo, FormLogin, ChatSlider },
+  components: { VideoPlayer, UserInfo, ChatSlider },
   props: ['videoId'],
   name: 'ChatBox',
   data() {
@@ -133,7 +130,6 @@ export default {
       });
     },
     handleStopVideo() {
-      console.log('stoppp');
       const videoPlayer = this.$refs.myPlayer.player;
       videoPlayer.pause();
     },
