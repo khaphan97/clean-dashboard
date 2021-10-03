@@ -44,7 +44,9 @@
                 <el-col :span="24">
                   <el-form-item label="Button Data">
                     <el-select placeholder="Choose button data..." v-model="button.data.next">
-                      <el-option value="1">1</el-option>
+                      <el-option :value="name" v-for="name in nodeNames" :key="name">{{
+                        name
+                      }}</el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
@@ -53,7 +55,9 @@
               <el-col :span="24" v-else>
                 <el-form-item label="Button Data">
                   <el-select placeholder="Choose button data..." v-model="button.data">
-                    <el-option value="1">1</el-option>
+                    <el-option :value="name" v-for="name in nodeNames" :key="name">{{
+                      name
+                    }}</el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -73,7 +77,7 @@
 import { eventButton } from '@/constants/formData';
 import { parseButtons } from '@/utils/button';
 export default {
-  props: ['buttonNode'],
+  props: ['buttonNode', 'nodeNames'],
   name: 'button-node',
   data() {
     return {
