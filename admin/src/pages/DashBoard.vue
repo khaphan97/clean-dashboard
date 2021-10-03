@@ -1,14 +1,14 @@
 <template>
-	<div>
-		Dash Board
-	</div>
+  <div>
+    Dash Board
+  </div>
 </template>
 
 <script lang="ts">
-	import Vue from 'vue';
+import Vue from 'vue';
 
-	export default Vue.extend({
-		name: 'DashBoard',
-		components: {},
-	});
+export default Vue.extend({
+  name: 'DashBoard',
+  components: {},
+});
 </script>

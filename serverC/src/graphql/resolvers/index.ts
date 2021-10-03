@@ -1,7 +1,7 @@
 import { UserInputError } from 'apollo-server';
 const resolvers = {
   Query: {
-    getContentById: async (_, { id }, context) => {
+    botData: async (_, { id }, context) => {
       try {
         const result = await context.content.findById(id);
         return result;
@@ -12,12 +12,13 @@ const resolvers = {
   },
   Mutation: {
     createContent: async (_, { idContent, dto }, context) => {
+      console.log(idContent, dto);
       try {
         const node = await context.content
           .findOne({ idContent })
           .select({ content: { $elemMatch: { name: dto.name } } });
         console.log(node);
-        if (node) return new UserInputError('Node name has exist');
+        if (node.content.length > 0) return new UserInputError('Node name has exist');
 
         const result = await context.content.findOneAndUpdate(
           { idContent },
@@ -45,7 +46,6 @@ const resolvers = {
     },
 
     deleteContent: async (_, { idContent, name }, context) => {
-      console.log(name);
       const result = await context.content.findOneAndUpdate(
         { idContent },
         {

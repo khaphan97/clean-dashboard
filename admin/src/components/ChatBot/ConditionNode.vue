@@ -3,7 +3,7 @@
     <el-col :span="24" class="conds-group">
       <h3 style="text-align:center">CONDITIONS</h3>
       <transition-group name="fade">
-        <div class="btn-wrapper" v-for="(cond, index) in conditions" :key="`${index}abc`">
+        <div class="btn-wrapper" v-for="(cond, index) in condition" :key="`${index}abc`">
           <div class="btn-item">
             <span class="btn-close-icon" @click="handleRemoveCondition(index)">
               <i class="el-icon-close"></i>
@@ -52,22 +52,30 @@
 import { condOperator } from '@/constants/formData';
 export default {
   name: 'condition-node',
+  props: ['conditionNode'],
   data() {
     return {
-      conditions: [],
+      condition: [],
       condOperator,
     };
   },
   methods: {
     handleAddCondition() {
-      this.conditions.push({
+      this.condition.push({
         property: '',
         value: '',
         operator: '',
       });
     },
     handleRemoveCondition(index) {
-      this.conditions.splice(index, 1);
+      this.condition.splice(index, 1);
+    },
+  },
+  watch: {
+    conditionNode: {
+      handler(val) {
+        this.condition = val;
+      },
     },
   },
 };
