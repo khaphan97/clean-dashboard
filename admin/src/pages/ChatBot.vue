@@ -1,15 +1,21 @@
 <template>
-	<el-container class="chatbot-container" v-if="botData">
-		<el-aside class="chatbot-aside">
-			<ChatBotAside :botData="botData" />
-		</el-aside>
-		<el-main style="padding:10px">
-			<router-view
-				:botData="botData"
-				@handleCreateNode="handleCreateNode"
-				@handleDeleteNode="handleDeleteNode"
-			/>
-		</el-main>
+	<el-container v-loading="!botData">
+		<el-container class="chatbot-container" v-if="botData">
+			<el-aside class="chatbot-aside">
+				<ChatBotAside :botData="botData" />
+			</el-aside>
+			<el-main style="padding:10px">
+				<router-view
+					:botData="botData"
+					@handleCreateNode="handleCreateNode"
+					@handleDeleteNode="handleDeleteNode"
+					:isLoading="isLoading"
+				/>
+			</el-main>
+		</el-container>
+		<el-container v-else class="loading-container">
+			Loading...
+		</el-container>
 	</el-container>
 </template>
 
@@ -26,6 +32,7 @@
 		data() {
 			return {
 				botData: null,
+				isLoading: false,
 			};
 		},
 		apollo: {
@@ -38,6 +45,7 @@
 		},
 		methods: {
 			handleCreateNode({ args, done }) {
+				this.isLoading = true;
 				if (!args.nodeId) {
 					this.$apollo
 						.mutate({
@@ -53,6 +61,7 @@
 								type: 'success',
 								message: 'Add new node success',
 							});
+							this.isLoading = false;
 							return done(true);
 						})
 						.catch((error) => {
@@ -60,6 +69,7 @@
 								type: 'error',
 								message: error.graphQLErrors[0].message,
 							});
+							this.isLoading = false;
 							return done(false);
 						});
 				} else {
@@ -78,17 +88,20 @@
 								type: 'success',
 								message: 'Edit node success',
 							});
+							this.isLoading = false;
 						})
 						.catch((error) => {
 							this.$message({
 								type: 'error',
 								message: error.message,
 							});
+							this.isLoading = false;
 						});
 				}
 			},
 
 			handleDeleteNode(nodeId) {
+				this.isLoading = true;
 				this.$apollo
 					.mutate({
 						mutation: deleteContent,
@@ -103,6 +116,7 @@
 							type: 'success',
 							message: 'Delete node success',
 						});
+						this.isLoading = false;
 						this.$router.push({ path: '/chat-bot' });
 					})
 					.catch((error) => {
@@ -110,6 +124,7 @@
 							type: 'error',
 							message: error.graphQLErrors[0].message,
 						});
+						this.isLoading = false;
 					});
 			},
 		},
@@ -128,5 +143,10 @@
 		border-right: 1px solid #dadada;
 		height: calc(100vh - 60px);
 		overflow: hidden;
+	}
+
+	.loading-container {
+		height: calc(100vh - 60px);
+		width: 100%;
 	}
 </style>
