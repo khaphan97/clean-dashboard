@@ -12,12 +12,6 @@
 		color: #2c3e50;
 	}
 
-	* {
-		box-sizing: border-box;
-		margin: 0;
-		padding: 0;
-	}
-
 	#nav {
 		padding: 30px;
 	}
@@ -31,3 +25,5 @@
 		color: #42b983;
 	}
 </style>
+
+<style src="./assets/css/reset.css"></style>
