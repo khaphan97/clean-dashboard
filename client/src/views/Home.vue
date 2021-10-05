@@ -78,6 +78,8 @@
 		position: absolute;
 		bottom: 20px;
 		right: 40px;
+		display: -webkit-box;
+		display: -ms-flexbox;
 		display: flex;
 		width: 360px;
 		height: 630px;
@@ -94,16 +96,20 @@
 
 		border-radius: 20px;
 		border: 5px solid #1890ff;
+		background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.13), rgba(0, 0, 0, 0.24)),
+			url('../assets/5f16c8991ce3203ce40fe83b_learn_n_dev_image_1.1.1.jpg');
 		background-image: linear-gradient(rgba(0, 0, 0, 0.13), rgba(0, 0, 0, 0.24)),
 			url('../assets/5f16c8991ce3203ce40fe83b_learn_n_dev_image_1.1.1.jpg');
 		background-size: cover;
 		box-shadow: 0 0 5px #cecece;
 
 		cursor: pointer;
+		-webkit-transition: all 0.3s ease-in-out;
 		transition: all 0.3s ease-in-out;
 	}
 
 	.chat-icon:hover {
+		-webkit-transform: scale(1.1);
 		transform: scale(1.1);
 	}
 
@@ -115,6 +121,7 @@
 		overflow: hidden;
 		box-shadow: 0 0 5px #cecece;
 	}
+
 	.fade-enter-active,
 	.fade-leave-active {
 		transition: all 0.5s;
