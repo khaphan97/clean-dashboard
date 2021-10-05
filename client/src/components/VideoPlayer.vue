@@ -12,7 +12,7 @@
       :id="`${videoId}`"
       :videoId="videoId"
       :autoplay="autoplay"
-      @click.native="togglePause"
+      @click="togglePause"
     ></video>
   </div>
 </template>

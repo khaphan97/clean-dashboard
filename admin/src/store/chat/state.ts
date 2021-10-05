@@ -1,0 +1,3 @@
+export default {
+  botData: null,
+};
