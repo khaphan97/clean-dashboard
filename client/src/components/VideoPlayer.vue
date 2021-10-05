@@ -1,5 +1,5 @@
 <template>
-  <div class="video-wrapper" :class="{ animated: isAnimated }" @click="togglePause">
+  <div class="video-wrapper" :class="{ animated: isAnimated }">
     <div class="btn-audio">
       <img src="../assets/volume.png" alt="" v-if="!isMuted" @click="handleToggleVolume" />
       <img src="../assets/mute-speaker.png" alt="" v-else @click="handleToggleVolume" />
@@ -12,6 +12,7 @@
       :id="`${videoId}`"
       :videoId="videoId"
       :autoplay="autoplay"
+      @click.native="togglePause"
     ></video>
   </div>
 </template>
@@ -40,6 +41,7 @@ export default {
       this.player.muted(this.isMuted);
     },
     togglePause() {
+      event.stopPropagation();
       this.isPause = !this.isPause;
       // Implement for mobile only
       this.isPause ? this.player.pause() : this.player.play();
@@ -68,7 +70,7 @@ export default {
 
 <style>
 .video-js {
-  border-radius: 21px;
+  border-radius: 20px;
 }
 .video-wrapper {
   width: 100%;
@@ -93,7 +95,7 @@ export default {
 }
 
 .video-wrapper.animated .video-js .vjs-tech {
-  opacity: 0.9;
+  opacity: 0.8;
 }
 .video-wrapper.animated .btn-audio {
   animation: fadeIn 0.5s ease-in-out forwards;
