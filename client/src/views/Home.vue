@@ -120,6 +120,7 @@
 		border-radius: 20px;
 		overflow: hidden;
 		box-shadow: 0 0 5px #cecece;
+		-webkit-mask-image: -webkit-radial-gradient(white, black);
 	}
 
 	.fade-enter-active,
