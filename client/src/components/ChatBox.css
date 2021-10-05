@@ -79,13 +79,13 @@
 	display: flex;
 	align-items: center;
 
-	width: 80%;
+	width: 85%;
 	margin: 0 auto;
 	margin-bottom: 10px;
-	padding: 10px;
 
 	color: #fff;
 	text-align: left;
+	padding: 0 16px;
 
 	border: 0;
 	border: 1px solid transparent;
@@ -95,8 +95,7 @@
 	cursor: pointer;
 	transition: all 0.2s;
 
-	font-weight: 500;
-	font-size: 16px;
+	justify-content: space-around;
 }
 
 .button-item:hover {
@@ -107,11 +106,18 @@
 
 .button-item__badge {
 	padding: 8px;
-	font-size: 12px;
+	font-size: 16px;
 	clip-path: circle();
 	border-radius: 500px;
 	background-color: #0048ff;
-	margin-right: 10px;
+}
+
+.button-text {
+	padding: 15px;
+	flex: 1;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 25px;
 }
 
 .chat-input {
