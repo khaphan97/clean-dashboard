@@ -181,6 +181,7 @@
 	outline: 0;
 	background-color: #f7f7f7;
 	margin: 0;
+	border-radius: 0;
 }
 
 .chat-input input::placeholder {
