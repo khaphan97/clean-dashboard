@@ -34,21 +34,24 @@
 				</div>
 			</transition>
 			<transition name="fade">
-				<form class="chat-input" v-show="isInput" @submit.prevent="handleUserCommand">
-					<input
-						type="text"
-						v-model="name"
-						:placeholder="placeholder[language]"
-						id="userInput"
-						autocomplete="off"
-					/>
-					<button type="submit" class="btn-submit">
-						<img src="../assets/send.png" alt="" />
-					</button>
-					<button @click.prevent="handleGoBack" class="btn-danger">
-						<img src="../assets/back-arrow.png" alt="" />
-					</button>
-				</form>
+				<div class="chat-input-wrapper" v-show="isInput">
+					<form class="chat-input" @submit.prevent="handleUserCommand">
+						<input
+							type="text"
+							v-model="name"
+							:placeholder="placeholder[language]"
+							id="userInput"
+							autocomplete="off"
+						/>
+
+						<button @click.prevent="handleGoBack" class="btn-danger">
+							<img src="../assets/back-arrow.png" alt="" />
+						</button>
+						<button type="submit" class="btn-submit">
+							<img src="../assets/send.png" alt="" />
+						</button>
+					</form>
+				</div>
 			</transition>
 		</div>
 
@@ -79,8 +82,8 @@
 				isInput: false,
 				language: '',
 				placeholder: {
-					vi: 'Vui lòng nhập tên của bạn',
-					en: 'Insert your name to begin',
+					vi: 'Vui lòng nhập tên của bạn...',
+					en: 'Insert your name to begin...',
 				},
 			};
 		},
