@@ -4,7 +4,7 @@ import axios from 'axios';
 const service = axios.create({
   baseURL: 'https://chatbot-version-11.herokuapp.com/api/v1/node',
   // baseURL: 'http://localhost:4000/api/v1/node',
-  timeout: 5000,
+  timeout: 10000,
   headers: {
     accept: 'application/json',
   },
