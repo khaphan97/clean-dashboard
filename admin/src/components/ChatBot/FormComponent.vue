@@ -57,7 +57,7 @@
             <el-form-item label="Video URL">
               <el-input placeholder="Input Video Url..." v-model="formData.videoUrl" />
             </el-form-item>
-            <VideoGenerate ref="videoGenerate" />
+            <VideoGenerate ref="videoGenerate" :videoTitle="formData.videoTitle" />
             <el-button
               type="primary"
               style="position:absolute; top:0 ; right:7px"
