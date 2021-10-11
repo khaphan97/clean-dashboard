@@ -4,6 +4,7 @@ import express from 'express';
 import http from 'http';
 import { startApolloServer } from './graphql/apollo-server';
 import nodeRoutes from './routes/nodeRoutes';
+import synthesiaRoute from './routes/synthesiaRoute';
 import connectDB from './server';
 
 dotenv.config();
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/v1/node', nodeRoutes);
+app.use('/api/v1/synthesia', synthesiaRoute);
 
 const httpServer = http.createServer(app);
 

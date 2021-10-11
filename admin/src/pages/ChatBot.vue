@@ -6,7 +6,6 @@
       </el-aside>
       <el-main style="padding:10px">
         <router-view
-          :botData="botData"
           @handleCreateNode="handleCreateNode"
           @handleDeleteNode="handleDeleteNode"
           :isLoading="isLoading"
@@ -21,6 +20,7 @@
 
 <script>
 import ChatBotAside from '../components/ChatBot/ChatBotAside.vue';
+import { mapGetters, mapMutations } from 'vuex';
 import { botData } from '../graphql/queries';
 import { createContent, deleteContent, updateContent } from '../graphql/mutations';
 import { stripTypenames } from '../helpers/stripTypenames';
@@ -31,19 +31,18 @@ export default {
   name: 'ChatBot',
   data() {
     return {
-      botData: null,
       isLoading: false,
     };
   },
-  apollo: {
-    botData: {
-      query: botData,
-      variables: {
-        id: idContent,
-      },
-    },
+  computed: {
+    ...mapGetters({
+      botData: 'chat/botData',
+    }),
   },
   methods: {
+    ...mapMutations({
+      setBotData: 'chat/SET_BOT_DATA',
+    }),
     handleCreateNode({ args, done }) {
       this.isLoading = true;
       if (!args.nodeId) {
@@ -56,7 +55,7 @@ export default {
             },
           })
           .then(data => {
-            this.botData = data.data.createContent;
+            this.setBotData(data.data.createContent);
             this.$message({
               type: 'success',
               message: 'Add new node success',
@@ -82,7 +81,7 @@ export default {
             },
           })
           .then(data => {
-            this.botData = data.data.updateContent;
+            this.setBotData(data.data.updateContent);
             console.log(data);
             this.$message({
               type: 'success',
@@ -111,7 +110,7 @@ export default {
           },
         })
         .then(data => {
-          this.botData = data.data.deleteContent;
+          this.setBotData(data.data.deleteContent);
           this.$message({
             type: 'success',
             message: 'Delete node success',
@@ -128,24 +127,24 @@ export default {
         });
     },
   },
-  // created() {
-  //   this.$apollo
-  //     .query({
-  //       query: botData,
-  //       variables: {
-  //         id: idContent,
-  //       },
-  //     })
-  //     .then(res => {
-  //       this.$store.commit('chat/SET_BOT_DATA', res.data.botData);
-  //     })
-  //     .catch(error => {
-  //       this.$message({
-  //         type: 'error',
-  //         message: error.graphQLErrors[0].message,
-  //       });
-  //     });
-  // },
+  created() {
+    this.$apollo
+      .query({
+        query: botData,
+        variables: {
+          id: idContent,
+        },
+      })
+      .then(res => {
+        this.setBotData(res.data.botData);
+      })
+      .catch(error => {
+        this.$message({
+          type: 'error',
+          message: error.graphQLErrors[0].message,
+        });
+      });
+  },
   components: { ChatBotAside },
 };
 </script>

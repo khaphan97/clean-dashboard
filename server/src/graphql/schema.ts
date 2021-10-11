@@ -36,7 +36,7 @@ const typeDef = gql`
 
   input ConditionInput {
     property: String
-    lang: String
+    value: String
     operator: String
   }
 

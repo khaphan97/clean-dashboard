@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "apollo-boost": "^0.4.9",
+    "axios": "^0.22.0",
     "core-js": "^3.6.5",
     "element-ui": "^2.15.6",
     "graphql": "^15.6.0",
