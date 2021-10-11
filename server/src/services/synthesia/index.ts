@@ -16,3 +16,11 @@ export function getTemplateById(id) {
     method: 'GET',
   });
 }
+
+export function createVideoByTemplateID(data) {
+  return request({
+    url: 'videos/fromTemplate',
+    method: 'POST',
+    data,
+  });
+}

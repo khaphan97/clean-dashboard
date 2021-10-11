@@ -8,3 +8,11 @@ export function getListTemplates() {
     method: 'GET',
   });
 }
+
+export function generateVideo(data: any) {
+  return request({
+    url: '/synthesia',
+    method: 'POST',
+    data,
+  });
+}

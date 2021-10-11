@@ -24,6 +24,7 @@ import { mapGetters, mapMutations } from 'vuex';
 import { botData } from '../graphql/queries';
 import { createContent, deleteContent, updateContent } from '../graphql/mutations';
 import { stripTypenames } from '../helpers/stripTypenames';
+import { generateVideo } from '@/api/synthesia';
 
 const idContent = '615458a83bcdffe4da541e21';
 
@@ -43,15 +44,53 @@ export default {
     ...mapMutations({
       setBotData: 'chat/SET_BOT_DATA',
     }),
+
     handleCreateNode({ args, done }) {
       this.isLoading = true;
+      this.apolloCreateNode(args, done);
+
+      // Handle uplod video
+      if (!args.nodeId) {
+        generateVideo({ data: args.formVideoData });
+      }
+    },
+
+    handleDeleteNode(nodeId) {
+      this.isLoading = true;
+      this.$apollo
+        .mutate({
+          mutation: deleteContent,
+          variables: {
+            idContent,
+            name: nodeId,
+          },
+        })
+        .then(data => {
+          this.setBotData(data.data.deleteContent);
+          this.$message({
+            type: 'success',
+            message: 'Delete node success',
+          });
+          this.isLoading = false;
+          this.$router.push({ path: '/chat-bot' });
+        })
+        .catch(error => {
+          this.$message({
+            type: 'error',
+            message: error.graphQLErrors[0].message,
+          });
+          this.isLoading = false;
+        });
+    },
+
+    apolloCreateNode(args, done) {
       if (!args.nodeId) {
         this.$apollo
           .mutate({
             mutation: createContent,
             variables: {
               idContent,
-              dto: args.formData,
+              dto: { ...args.formData, videoUrl: 'In progress....' },
             },
           })
           .then(data => {
@@ -97,34 +136,6 @@ export default {
             this.isLoading = false;
           });
       }
-    },
-
-    handleDeleteNode(nodeId) {
-      this.isLoading = true;
-      this.$apollo
-        .mutate({
-          mutation: deleteContent,
-          variables: {
-            idContent,
-            name: nodeId,
-          },
-        })
-        .then(data => {
-          this.setBotData(data.data.deleteContent);
-          this.$message({
-            type: 'success',
-            message: 'Delete node success',
-          });
-          this.isLoading = false;
-          this.$router.push({ path: '/chat-bot' });
-        })
-        .catch(error => {
-          this.$message({
-            type: 'error',
-            message: error.graphQLErrors[0].message,
-          });
-          this.isLoading = false;
-        });
     },
   },
   created() {

@@ -55,9 +55,9 @@
 
           <el-col :span="12" style="position: relative;">
             <el-form-item label="Video URL">
-              <el-input placeholder="Input Video Url..." v-model="formData.videoUrl" />
+              <el-input placeholder="https//www.example.com" v-model="formData.videoUrl" disabled />
             </el-form-item>
-            <VideoGenerate ref="videoGenerate" :videoTitle="formData.videoTitle" />
+            <VideoGenerate ref="videoGenerate" :callbackId="formData.name" />
             <el-button
               type="primary"
               style="position:absolute; top:0 ; right:7px"
@@ -111,7 +111,7 @@ import { mapGetters } from 'vuex';
 import ButtonNode from './ButtonNode.vue';
 import ConditionNode from './ConditionNode.vue';
 import VideoGenerate from './VideoGenerate.vue';
-
+import convertToSlug from '@/utils/convertToSlug';
 const initFormData = {
   type: 'text',
   ui: 'regular',
@@ -139,15 +139,23 @@ export default {
   methods: {
     async handleClickFormButton() {
       const newFormData = JSON.parse(JSON.stringify(this.formData));
+      newFormData.name = convertToSlug(newFormData.name);
 
       newFormData.buttons.forEach(btn => {
         if (btn.event === 'capture') btn.data = JSON.stringify(btn.data);
       });
 
+      const formVideoData = {
+        ...this.$refs.videoGenerate.formVideo,
+        title: newFormData.videoTitle,
+        callbackId: newFormData.name,
+      };
+
       await this.$emit('handleCreateNode', {
         args: {
           nodeId: this.nodeId,
           formData: newFormData,
+          formVideoData,
         },
         done: isSuccess => {
           if (isSuccess) {
@@ -198,10 +206,6 @@ export default {
     this.$watch('$refs.ConditionComponent.condition', new_value => {
       this.formData.condition = new_value;
     });
-  },
-
-  updated() {
-    console.log('Render form');
   },
 };
 </script>

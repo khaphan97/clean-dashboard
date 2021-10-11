@@ -7,11 +7,12 @@
   >
     <el-row>
       <el-form>
-        <el-form-item label="Video Title">
-          <el-input type="text" :value="videoTitle" />
+        <el-form-item label="Callback ID">
+          <el-input type="text" :value="callbackId" placeholder="abc@example.com" disabled />
         </el-form-item>
+
         <el-form-item label="Description">
-          <el-input type="text" />
+          <el-input type="text" v-model="formVideo.description" placeholder="Video description" />
         </el-form-item>
 
         <el-form-item label="Template">
@@ -43,37 +44,51 @@
     </el-row>
     <span slot="footer" class="dialog-footer">
       <el-button @click="dialogVisible = false">Cancel</el-button>
-      <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
+      <el-button type="primary" @click="handleGenerateVideo">Confirm</el-button>
     </span>
   </el-dialog>
 </template>
 
 <script>
 import { getListTemplates } from '@/api/synthesia';
+import convertToSlug from '@/utils/convertToSlug';
+
 export default {
-  props: ['videoTitle'],
+  props: ['callbackId'],
   data() {
     return {
       dialogVisible: false,
       templates: [],
       formVideo: {
         test: true,
-        title: this.videoTitle,
+        description: '',
         templateId: '',
         templateData: {},
+        visibility: 'public',
       },
       selectedTemplate: null,
     };
   },
   methods: {
     handleClose(done) {
-      this.$confirm('Are you sure to close this dialog?')
+      this.$confirm('Are you sure to close this dialog?', 'Warning', {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        type: 'warning',
+      })
         .then(_ => {
           done();
         })
         .catch(err => {
           console.log(err);
         });
+    },
+    async handleGenerateVideo() {
+      this.$message({
+        type: 'success',
+        message: 'Your data has been save',
+      });
+      this.dialogVisible = false;
     },
   },
   async created() {
