@@ -1,6 +1,6 @@
 <template>
 	<el-scrollbar class="list-video-wrapper">
-		<el-row>
+		<el-row style="margin-right: 20px">
 			<el-form>
 				<el-form-item label="Callback ID">
 					<el-input type="text" :value="callbackId" placeholder="abc@example.com" disabled />

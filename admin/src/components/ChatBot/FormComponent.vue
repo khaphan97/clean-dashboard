@@ -57,7 +57,7 @@
 						<el-form-item label="Video URL">
 							<el-input placeholder="https//www.example.com" v-model="formData.videoUrl" disabled />
 						</el-form-item>
-						<video-modal ref="VideoModal" :callbackId="formData.name" />
+						<VideoModal ref="VideoModal" :callbackId="formData.name" />
 						<el-button
 							type="primary"
 							style="position:absolute; top:0 ; right:7px"
