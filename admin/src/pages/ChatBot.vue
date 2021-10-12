@@ -139,6 +139,7 @@ export default {
     },
   },
   created() {
+  console.log(idContent)
     this.$apollo
       .query({
         query: botData,
