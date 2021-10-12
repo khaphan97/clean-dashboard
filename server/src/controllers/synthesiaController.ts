@@ -63,6 +63,7 @@ class synthesiaController {
       response.pipe(file);
       file.on('finish', function () {
         // Call API To cloudinary after write file success
+
         cloudinaryInstance.uploader.upload(
           file.path.toString(),
           {
@@ -76,15 +77,20 @@ class synthesiaController {
             const videoUrl = result.secure_url;
             const nodeId = data.callbackId;
 
-            const nodeItem: any = await Content.findOneAndUpdate(
+            await Content.findOneAndUpdate(
               { idContent: process.env.ID, 'content.name': nodeId },
               {
-                $set: {
-                  'content.$.videoUrl': videoUrl,
-                },
-              },
-              { new: true }
+                $push: { 'content.$.videoHistory': videoUrl },
+                $set: { 'content.$.videoUrl': videoUrl },
+              }
             );
+
+            // Content.findOneAndUpdate(
+            //   { idContent: process.env.ID, 'content.name': nodeId },
+            //   {
+            //     $set: { 'content.$.videoUrl': videoUrl },
+            //   }
+            // );
           }
         );
       });

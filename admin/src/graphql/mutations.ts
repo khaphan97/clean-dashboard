@@ -9,6 +9,7 @@ export const createContent = gql`
         type
         videoTitle
         videoUrl
+        videoHistory
         text
         buttons {
           text
@@ -35,6 +36,7 @@ export const updateContent = gql`
         type
         videoTitle
         videoUrl
+        videoHistory
         text
         buttons {
           text
@@ -60,6 +62,7 @@ export const deleteContent = gql`
         type
         videoTitle
         videoUrl
+        videoHistory
         text
         buttons {
           text

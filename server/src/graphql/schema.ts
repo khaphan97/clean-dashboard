@@ -10,6 +10,7 @@ const typeDef = gql`
     type: String
     videoTitle: String
     videoUrl: String
+    videoHistory: [String]
     text: String
     buttons: [Button]
     condition: [Condition]
@@ -46,6 +47,7 @@ const typeDef = gql`
     type: String
     videoTitle: String
     videoUrl: String
+    videoHistory: [String]
     text: String
     buttons: [ButtonInput]
     condition: [ConditionInput]

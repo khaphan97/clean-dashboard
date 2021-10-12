@@ -8,6 +8,7 @@ const NodeSchema = new mongoose.Schema({
   type: String,
   videoTitle: String,
   videoUrl: String,
+  videoHistory: [String],
   text: String,
   description: String,
   thumb: String,
