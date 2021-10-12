@@ -9,6 +9,7 @@ export const botData = gql`
         type
         videoTitle
         videoUrl
+        videoHistory
         text
         buttons {
           text
