@@ -7,10 +7,10 @@
 	>
 		<el-tabs v-model="activeName">
 			<el-tab-pane label="Create" name="create">
-				<VideoGenerate :callbackId="callbackId" />
+				<VideoGenerate ref="VideoGenerate" :callbackId="callbackId" />
 			</el-tab-pane>
 			<el-tab-pane label="Videos" name="video">
-				<video-history />
+				<VideoHistory ref="VideoHistory" />
 			</el-tab-pane>
 		</el-tabs>
 		<span slot="footer" class="dialog-footer">
@@ -47,10 +47,21 @@
 					});
 			},
 			async handleGenerateVideo() {
+				const { formVideo } = this.$refs.VideoGenerate;
+				const { selectedVideo } = this.$refs.VideoHistory;
+				const isCreateVideo = selectedVideo ? false : true;
+
+				this.$emit('getModalData', {
+					formVideo,
+					selectedVideo,
+					isCreateVideo,
+				});
+
 				this.$message({
 					type: 'success',
 					message: 'Your data has been save',
 				});
+
 				this.dialogVisible = false;
 			},
 		},

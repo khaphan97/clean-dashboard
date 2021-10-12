@@ -57,11 +57,15 @@
 						<el-form-item label="Video URL">
 							<el-input placeholder="https//www.example.com" v-model="formData.videoUrl" disabled />
 						</el-form-item>
-						<VideoModal ref="VideoModal" :callbackId="formData.name" />
+						<VideoModal
+							ref="VideoModal"
+							:callbackId="formData.name"
+							@getModalData="handleGetModalData"
+						/>
 						<el-button
 							type="primary"
 							style="position:absolute; top:0 ; right:7px"
-							@click="handleOpenVideoGenerateModal"
+							@click="handleOpenVideoModal"
 							>Generate Video</el-button
 						>
 					</el-col>
@@ -112,6 +116,7 @@
 	import ConditionNode from './ConditionNode.vue';
 	import convertToSlug from '@/utils/convertToSlug';
 	import VideoModal from './VideoModal.vue';
+
 	const initFormData = {
 		type: 'text',
 		ui: 'regular',
@@ -134,6 +139,8 @@
 				formData: null,
 				uiData,
 				typeData,
+				formVideo: null,
+				isCreateVideo: false,
 			};
 		},
 		methods: {
@@ -145,17 +152,21 @@
 					if (btn.event === 'capture') btn.data = JSON.stringify(btn.data);
 				});
 
-				const formVideoData = {
-					...this.$refs.VideoModal.formVideo,
-					title: newFormData.videoTitle,
-					callbackId: newFormData.name,
-				};
+				let formVideoData = null;
+				if (this.formVideo) {
+					formVideoData = {
+						...this.formVideo,
+						title: newFormData.videoTitle,
+						callbackId: newFormData.name,
+					};
+				}
 
 				await this.$emit('handleCreateNode', {
 					args: {
 						nodeId: this.nodeId,
 						formData: newFormData,
 						formVideoData,
+						isCreateVideo: this.isCreateVideo,
 					},
 					done: (isSuccess) => {
 						if (isSuccess) {
@@ -176,8 +187,18 @@
 					this.formData = JSON.parse(JSON.stringify(initFormData));
 				}
 			},
-			handleOpenVideoGenerateModal() {
+			handleOpenVideoModal() {
 				this.$refs.VideoModal.dialogVisible = true;
+			},
+			handleGetModalData({ isCreateVideo, formVideo, selectedVideo }) {
+				if (!isCreateVideo) {
+					this.formData.videoUrl = 'selected video url'; // selectedVideo.url;
+					this.isCreateVideo = false;
+				} else {
+					this.formData.videoUrl = 'You video will finished in minutes...'; // selectedVideo.url;
+					this.isCreateVideo = true;
+					this.formVideo = formVideo;
+				}
 			},
 		},
 		computed: {
