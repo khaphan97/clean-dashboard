@@ -49,7 +49,6 @@ export default {
       this.apolloCreateNode(args, done);
 
       // Handle uplod video
-      console.log(args.formVideoData);
       if (args.formVideoData) {
         generateVideo({ data: args.formVideoData });
       }
@@ -121,7 +120,6 @@ export default {
           })
           .then(data => {
             this.setBotData(data.data.updateContent);
-            console.log(data);
             this.$message({
               type: 'success',
               message: 'Edit node success',
@@ -139,7 +137,6 @@ export default {
     },
   },
   created() {
-  console.log(idContent)
     this.$apollo
       .query({
         query: botData,

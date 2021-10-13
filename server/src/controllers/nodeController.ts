@@ -1,13 +1,13 @@
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
-import content from '../models/content';
+import Content from '../models/content';
 import Order from '../models/Order';
 import User from '../models/User';
 dotenv.config();
 
 class nodeController {
   async navigateNode(req: Request, res: Response) {
-    const botData: any = await content.findById(process.env.ID);
+    const botData: any = await Content.findById(process.env.ID);
     const oldNode = { ...req.body.currentNode };
 
     const nameNextNode = oldNode.event === 'capture' ? oldNode.data.next : oldNode.data;
@@ -35,7 +35,7 @@ class nodeController {
 
   async createUser(req: Request, res: Response) {
     try {
-      const data: any = await content.findById(process.env.ID);
+      const data: any = await Content.findById(process.env.ID);
       const { name, language } = req.body.user;
       await User.create({ name, language });
       const nextNode = data.content.find(
@@ -57,12 +57,28 @@ class nodeController {
       const orderInformation = new Order({ name, address, phone });
       await orderInformation.save();
       //Get Node conversation_end
-      const data: any = await content.findById(process.env.ID);
+      const data: any = await Content.findById(process.env.ID);
       const endConversation = language === 'en' ? 'conversation_end' : 'conversation_end:vi';
       const node = data.content.find(node => node.name === endConversation);
       res.status(200).json({
-        status: 'message',
+        status: 'success',
         data: node,
+      });
+    } catch (err) {
+      res.status(503).json({ status: 'failed', message: err.message });
+    }
+  }
+  async updateVideoHistory(req: Request, res: Response) {
+    try {
+      const { nodeName, videoUrl } = req.body;
+      await Content.findOneAndUpdate(
+        { idContent: process.env.ID, 'content.name': nodeName },
+        {
+          $push: { 'content.$.videoHistory': videoUrl },
+        }
+      );
+      res.status(200).json({
+        status: 'success',
       });
     } catch (err) {
       res.status(503).json({ status: 'failed', message: err.message });

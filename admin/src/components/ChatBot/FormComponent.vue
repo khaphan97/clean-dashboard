@@ -62,6 +62,7 @@
               :callbackId="formData.name"
               @handleCreateVideo="handleCreateVideo"
               @handleSelectedVideo="handleSelectedVideo"
+              @handleUploadVideo="handleUploadVideo"
             />
             <el-button
               type="primary"
@@ -196,6 +197,11 @@ export default {
     },
     handleSelectedVideo({ selectedVideo }) {
       this.formData.videoUrl = selectedVideo;
+      this.formVideo = null;
+    },
+    handleUploadVideo({ selectedVideo, videoHistory }) {
+      this.formData.videoUrl = selectedVideo;
+      this.formData.videoHistory = videoHistory;
       this.formVideo = null;
     },
   },

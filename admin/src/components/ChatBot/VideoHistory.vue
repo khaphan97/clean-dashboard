@@ -64,6 +64,9 @@ export default {
       clearTimeout(this.videoTimeout);
       event.target.pause();
     },
+    handleAddNewVideo(video) {
+      this.listVideos.push(video);
+    },
   },
   created() {
     const currentNode = this.botData.content.find(node => node.name === this.$route.params.id);
