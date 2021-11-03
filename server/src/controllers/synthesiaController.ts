@@ -57,7 +57,6 @@ class synthesiaController {
 
     // WRITE FILE INTO LOCAL
     const file = fs.createWriteStream(`src/assets/videos/${data.id}.mp4`);
-    // const file = fs.createWriteStream(`src/assets/videos/${}.mp4`);
 
     https.get(data.download, function (response) {
       response.pipe(file);
@@ -84,13 +83,6 @@ class synthesiaController {
                 $set: { 'content.$.videoUrl': videoUrl },
               }
             );
-
-            // Content.findOneAndUpdate(
-            //   { idContent: process.env.ID, 'content.name': nodeId },
-            //   {
-            //     $set: { 'content.$.videoUrl': videoUrl },
-            //   }
-            // );
           }
         );
       });
